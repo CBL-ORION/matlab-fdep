@@ -11,13 +11,13 @@
 % created:
 %	us	01-Mar-2007
 % modified:
-%	us	11-Jul-2008 18:28:12
+%	us	08-Jun-2009 22:24:13
 
 %	TFDEP4.M
 %	is pcoded and the p-file is also copied to a standalone p-file
 %	PFDEP4.P
 %--------------------------------------------------------------------------------
-function	tfdep4(varargin)			%#ok
+function	tfdep4(varargin)
 
 %	a private function
 	try

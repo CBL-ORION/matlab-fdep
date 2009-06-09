@@ -11,7 +11,7 @@
 % created:
 %	us	01-Mar-2007
 % modified:
-%	us	11-Jul-2008 18:28:12
+%	us	08-Jun-2009 22:24:13
 
 %--------------------------------------------------------------------------------
 function	tfdep1
@@ -35,14 +35,14 @@ function	tfdep1
 		sin;		% ML built-in
 		unique;		% ML function
 		evalin;		% call to EVAL...
-		evalc;		% call to EVAL...
+		evalc('');	% call to EVAL...
 		d=File;		% JAVA class
 		struct(d);
 		tfdep2;		% call test function 2
 		tfdep1;		% recursion
 		end
 %--------------------------------------------------------------------------------
-function	sub_tfdep1	%#ok
+function	sub_tfdep1
 		disp;
 		fieldnames;
 		end
