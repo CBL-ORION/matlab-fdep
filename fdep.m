@@ -107,13 +107,13 @@
 % created:
 %	us	07-Mar-2006
 % modified:
-%	us	08-Jun-2009 22:24:13	/ FEX R2008a
+%	us	18-Jun-2009 09:41:57	/ FEX R2008a
 
 %-------------------------------------------------------------------------------
 function	po=fdep(varargin)
 
 		magic='FDEP';
-		ver='08-Jun-2009 22:24:13';
+		ver='18-Jun-2009 09:41:57';
 		dopt={
 			'-toponly'
 			'-quiet'
@@ -2503,14 +2503,14 @@ end
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
-%$SSC_INSERT_BEG   08-Jun-2009/22:24:13   F:/usr/matlab/tmp/fex/afarg/farg.m
+%$SSC_INSERT_BEG   18-Jun-2009/09:41:57   F:/usr/matlab/tmp/fex/afarg/old09/farg.m
 % SSC automatic file insertion utility
 %     - us@neurol.unizh.ch [ver 07-Jun-2009/19:50:14]
 %     - all empty spaces and comments are stripped for brevity
 %     - original code available upon request
 function	[p,pp]=farg(varargin)
 		magic='FARG';
-		fver='08-Jun-2009 22:24:04';
+		fver='18-Jun-2009 09:41:48';
 	if	~nargin
 	if	nargout
 		[p,pp]=FARG_ini_par(magic,fver,mfilename,'-d');
@@ -2905,9 +2905,19 @@ end
 function	[p,par]=FARG_get_class(p,par,mode)
 	switch	mode
 	case	1
-		ic=find(strncmp('CLASSDEF',par.ltok(:,1),numel('CLASSDEF')));
-	if	any(ic)
-		par.ltok(ic,:)=strrep(par.ltok(ic,:),'CLASSDEF','FUNCTION');
+		ich=find(strncmp('CLASSDEF',par.ltok(:,1),numel('CLASSDEF')));
+		ic=ich;
+	if	strcmp(par.ltok(ic+1,1),'''(''')
+		ic=ic+1;
+	while	ic < par.nlex
+		ic=ic+1;
+	if	strcmp(par.ltok(ic,1),''')''')
+		break;
+	end
+	end
+	end
+	if	any(ich)
+		par.ltok(ich,:)=strrep(par.ltok(ich,:),'CLASSDEF','FUNCTION');
 		par.call=[
 			{
 			sprintf('M%-1d %-1d %-1d %s',0,par.lex(ic+1,1:2),par.ltok{ic+1,2})
@@ -3458,7 +3468,7 @@ function	s=FARG_show_entries(p,varargin)
 		clear	s;
 	end
 end
-%$SSC_INSERT_END   08-Jun-2009/22:24:13   F:/usr/matlab/tmp/fex/afarg/farg.m
+%$SSC_INSERT_END   18-Jun-2009/09:41:57   F:/usr/matlab/tmp/fex/afarg/old09/farg.m
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
@@ -3473,7 +3483,7 @@ end
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
-%$SSC_INSERT_BEG   08-Jun-2009/22:24:13   F:/usr/matlab/unix/detab.m
+%$SSC_INSERT_BEG   18-Jun-2009/09:41:57   F:/usr/matlab/unix/detab.m
 % SSC automatic file insertion utility
 %     - us@neurol.unizh.ch [ver 07-Jun-2009/19:50:14]
 %     - all empty spaces and comments are stripped for brevity
@@ -3621,7 +3631,7 @@ function	[opt,par]=DETAB_get_par(otmpl,varargin)
 	end
 		par.uh=[];
 end
-%$SSC_INSERT_END   08-Jun-2009/22:24:13   F:/usr/matlab/unix/detab.m
+%$SSC_INSERT_END   18-Jun-2009/09:41:57   F:/usr/matlab/unix/detab.m
 %--------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
@@ -3633,7 +3643,7 @@ end
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 %@LISTHELP_BEG
-% FDEP	version 08-Jun-2009 22:24:13
+% FDEP	version 18-Jun-2009 09:41:57
 %
 % the ML-file under investigation is the
 %	root function = MAIN module
