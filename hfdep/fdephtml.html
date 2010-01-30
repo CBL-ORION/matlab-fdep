@@ -1,18 +1,12 @@
 
 <!DOCTYPE html
   PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-   <head>
+<html><head>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-   
-      <!--
+   <!--
 This HTML is auto-generated from an M-file.
 To make changes, update the M-file and republish this document.
-      -->
-      <title>fdephtml</title>
-      <meta name="generator" content="MATLAB 7.8">
-      <meta name="date" content="2009-06-18">
-      <meta name="m-file" content="fdephtml"><style type="text/css">
+      --><title>fdephtml</title><meta name="generator" content="MATLAB 7.9"><meta name="date" content="2010-01-30"><meta name="m-file" content="fdephtml"><style type="text/css">
 
 body {
   background-color: white;
@@ -68,36 +62,7 @@ p.footer {
   color: gray;
 }
 
-  </style></head>
-   <body>
-      <div class="content">
-         <h2>Contents</h2>
-         <div>
-            <ul>
-               <li><a href="#1">introduction</a></li>
-               <li><a href="#2">TFDEP1: dissection of an M-file</a></li>
-               <li><a href="#3">- prepare the environment</a></li>
-               <li><a href="#4">- the runtime output</a></li>
-               <li><a href="#5">- the listing's panels</a></li>
-               <li><a href="#6">- the content of selected modules</a></li>
-               <li><a href="#7">- the dependency matrix</a></li>
-               <li><a href="#8">- the runtime and caller tree</a></li>
-               <li><a href="#9">- the windows manager</a></li>
-               <li><a href="#10">PFDEP4: disscetion of a P-file</a></li>
-               <li><a href="#11">- the runtime output</a></li>
-               <li><a href="#12">- the content of selected modules</a></li>
-               <li><a href="#15">software developers</a></li>
-               <li><a href="#16">- find modules and show their summary</a></li>
-               <li><a href="#17">- find modules and retrieve their content</a></li>
-               <li><a href="#22">- find modules in the dependency matrix</a></li>
-               <li><a href="#25">- debug a function</a></li>
-               <li><a href="#30">- checking the independence of a program for distribution</a></li>
-               <li><a href="#32">help</a></li>
-               <li><a href="#33">- for the listing's panels</a></li>
-               <li><a href="#35">- for FDEP</a></li>
-            </ul>
-         </div>
-         <h2>introduction<a name="1"></a></h2><pre class="codeinput"><span class="comment">% FDEP dissects a MATLAB (ML) file and iteratively looks</span>
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">introduction</a></li><li><a href="#2">TFDEP1: dissection of an M-file</a></li><li><a href="#3">- prepare the environment</a></li><li><a href="#4">- the runtime output</a></li><li><a href="#5">- the listing's panels</a></li><li><a href="#6">- the content of selected modules</a></li><li><a href="#7">- the dependency matrix</a></li><li><a href="#8">- the runtime and caller tree</a></li><li><a href="#9">- the windows manager</a></li><li><a href="#10">PFDEP4: disscetion of a P-file</a></li><li><a href="#11">- the runtime output</a></li><li><a href="#12">- the content of selected modules</a></li><li><a href="#15">software developers</a></li><li><a href="#16">- find modules and show their summary</a></li><li><a href="#17">- find modules and retrieve their content</a></li><li><a href="#22">- find modules in the dependency matrix</a></li><li><a href="#25">- debug a function</a></li><li><a href="#30">- checking the independence of a program for distribution</a></li><li><a href="#32">- show toolboxes and all modules depending on them</a></li><li><a href="#33">help</a></li><li><a href="#34">- for the listing's panels</a></li><li><a href="#36">- for FDEP</a></li></ul></div><h2>introduction<a name="1"></a></h2><pre class="codeinput"><span class="comment">% FDEP dissects a MATLAB (ML) file and iteratively looks</span>
 <span class="comment">% for all user defined functions (modules), which are</span>
 <span class="comment">% used during runtime</span>
 <span class="comment">%</span>
@@ -142,7 +107,7 @@ p.footer {
 <span class="comment">% please use a small font size in your browser for best formatting results</span>
 <span class="comment">% of this HTML document</span>
 <span class="comment">%</span>
-<span class="comment">% us	18-Jun-2009 09:41:57</span>
+<span class="comment">% us	30-Jan-2010 03:30:06</span>
 </pre><h2>TFDEP1: dissection of an M-file<a name="2"></a></h2><pre class="codeinput"><span class="comment">% NOTE</span>
 <span class="comment">% - some TFDEP test files contain proprietary functions, which you will NOT have</span>
 <span class="comment">%   therefore, this demo file - FDEPHTML.M - is NOT part of the package</span>
@@ -188,9 +153,9 @@ p.footer {
 <span class="comment">%		references to previously detected modules during runtime</span>
 <span class="comment">%</span>
 <span class="comment">%	example</span>
-<span class="comment">%		module	38 = &lt;chkoptn&gt; calls 2 previously found modules</span>
-<span class="comment">%			20 = &lt;getoptn&gt;</span>
-<span class="comment">%			24 = &lt;setoptn&gt;</span>
+<span class="comment">%		module#	29 = &lt;chkoptn&gt; calls 2 previously found modules</span>
+<span class="comment">%			21 = &lt;getoptn&gt;</span>
+<span class="comment">%			25 = &lt;setoptn&gt;</span>
 
 	disp(p.rtree);
 </pre><pre class="codeoutput">ROOT     : &gt; F:/usr/matlab/tmp/fex/afarg/old09/tfdep1.m                                                     
@@ -219,23 +184,10 @@ p.footer {
 23   5   :       . | noblank                                   0:                                           
 24   4   :     . | gettok                                  E   0:                                           
 25   4   :     . | setoptn                                RE   4: 21 22 23 24                               
-26   2   :   | foofoo                                          1: F:\usr\matlab\dmap\ext.m                  
-27   3   :     | ext                                           1: F:\usr\matlab\dmap\eboxp.m                
-28   4   :       | eboxp                                       1: F:\usr\matlab\dmap\eboxu.m                
-29   5   :       . | eboxu                                     0:                                           
-30   4   :       | eget                                    E   1: F:\usr\matlab\dmap\echeck.m               
-31   5   :       . | echeck                                E   1: 4                                         
-32   5   :         | eparl                                 E   1: F:\usr\matlab\dmap\edisp.m                
-33   6   :         . | edisp                                   0:                                           
-34   4   :     . | ehelp                                       1: 4                                         
-35   4   :     . | rdisp                                       1: 4                                         
-36   4   :     . | vadj                                   R    0:                                           
-37   3   :   . | extlabel                                      1: 4                                         
-38   3   :   . | cl                                            0:                                           
-39   2   :   | tfdep2                                     RES  1: F:\usr\matlab\tmp\fex\afarg\old09\pfdep4.p
-40   3   :     | pfdep4                                   R  P 1: F:\usr\matlab\tmp\fex\afarg\old09\tfdep4.p
-41   4   :     . | tfdep4                                 RE P 2: 25 40                                     
-42   3   :   . | chkoptn                                       2: 21 25                                     
+26   2   :   | tfdep2                                     RES  1: F:\usr\matlab\tmp\fex\afarg\old09\pfdep4.p
+27   3   :     | pfdep4                                   R  P 1: F:\usr\matlab\tmp\fex\afarg\old09\tfdep4.p
+28   4   :     . | tfdep4                                 RE P 2: 25 27                                     
+29   3   :   . | chkoptn                                       2: 21 25                                     
 </pre><h2>- the listing's panels<a name="5"></a></h2><pre class="codeinput"><span class="comment">% SYNTAX</span>
 <span class="comment">%	runtime	:	p=fdep(FILE,'-l',...);</span>
 <span class="comment">%	marcros	:</span>
@@ -251,13 +203,13 @@ p.footer {
 <span class="comment">%			- select module M</span>
 
 <span class="comment">% NOTE</span>
-<span class="comment">% - select module #4/&lt;eastat&gt;</span>
+<span class="comment">% - select module #3/&lt;eastat&gt;</span>
 
-	p.list(4);
+	p.list(3);
 <span class="comment">% -or-	p.list('eastat');</span>
 <span class="comment">% -or-</span>
 <span class="comment">%	pp=p.list();</span>
-<span class="comment">%	pp.smod(4);</span>
+<span class="comment">%	pp.smod(3);</span>
 <span class="comment">% -or-	pp.smod('eastat');</span>
 </pre><img vspace="5" hspace="5" src="fdephtml_01.png" alt=""> <h2>- the content of selected modules<a name="6"></a></h2><pre class="codeinput"><span class="comment">% SYNTAX</span>
 <span class="comment">%	macros	:	p.mhelp(M1,M2,...,Mn)</span>
@@ -307,7 +259,7 @@ p.footer {
 <span class="comment">% - CLICKING on a node displays module information and guiding lines</span>
 <span class="comment">% - CLICKING on an empty space in the box clears all guiding lines</span>
 
-	p.mplot([1,4],[5,13]);		<span class="comment">% demo: select nodes 1/4 and 5/13</span>
+	p.mplot([1,3],[6,5]);		<span class="comment">% demo: select nodes 1/3 and 6/5</span>
 </pre><img vspace="5" hspace="5" src="fdephtml_04.png" alt=""> <img vspace="5" hspace="5" src="fdephtml_05.png" alt=""> <h2>- the runtime and caller tree<a name="8"></a></h2><pre class="codeinput"><span class="comment">% SYNTAX</span>
 <span class="comment">%	runtime	:	not available</span>
 <span class="comment">%	gui	:	CLICKING the tree button</span>
@@ -326,8 +278,7 @@ p.footer {
 <span class="comment">% CLICKING on an entry brings the window to the front</span>
 
 	clfig();
-</pre><h2>PFDEP4: disscetion of a P-file<a name="10"></a></h2>
-         <h2>- the runtime output<a name="11"></a></h2><pre class="codeinput"><span class="comment">% due to formatting issues</span>
+</pre><h2>PFDEP4: disscetion of a P-file<a name="10"></a></h2><h2>- the runtime output<a name="11"></a></h2><pre class="codeinput"><span class="comment">% due to formatting issues</span>
 <span class="comment">% - quiet mode</span>
 <span class="comment">% - off-line display</span>
 
@@ -356,8 +307,7 @@ p.footer {
 
 	pp.mhelp(<span class="string">'tfdep4'</span>);
 </pre><img vspace="5" hspace="5" src="fdephtml_08.png" alt=""> <pre class="codeinput">	clfig();
-</pre><h2>software developers<a name="15"></a></h2>
-         <h2>- find modules and show their summary<a name="16"></a></h2><pre class="codeinput"><span class="comment">% NOTE</span>
+</pre><h2>software developers<a name="15"></a></h2><h2>- find modules and show their summary<a name="16"></a></h2><pre class="codeinput"><span class="comment">% NOTE</span>
 <span class="comment">% - data from TFDEP1 are reused</span>
 
 <span class="comment">% SYNTAX</span>
@@ -370,7 +320,7 @@ p.footer {
 	p.find(<span class="string">'eastat'</span>,2);
 </pre><pre class="codeoutput">M-FILE       : F:/usr/matlab/dmap/eastat.m            
 P-FILE       :                                        
-MODULE  #   4: eastat                                 
+MODULE  #   3: eastat                                 
 type         : FUNCTION                               
 created      : 14-Sep-2008 22:24:25                   
 size         : 17790 bytes                            
@@ -393,8 +343,8 @@ ML  built-ins:    30
 ML    classes:     1                                  
 OTHER classes:     0                                  
 ML  toolboxes:     2                                  
-             :    +1  MATLAB (7.8) [matlab]           
-             :    +2  Statistics Toolbox (7.1) [stats]
+             :    +1  MATLAB (7.9) [matlab]           
+             :    +2  Statistics Toolbox (7.2) [stats]
 -------------                                         
 M-FILE       : F:/usr/matlab/unix/chkoptn.m           
 P-FILE       :                                        
@@ -421,7 +371,7 @@ ML  built-ins:     5
 ML    classes:     1                                  
 OTHER classes:     0                                  
 ML  toolboxes:     1                                  
-             :    +1  MATLAB (7.8) [matlab]           
+             :    +1  MATLAB (7.9) [matlab]           
 </pre><h2>- find modules and retrieve their content<a name="17"></a></h2><pre class="codeinput"><span class="comment">% SYNTAX</span>
 <span class="comment">%	macros	:</span>
 <span class="comment">%			m=p.get(M1,M2,...,Mn);</span>
@@ -440,14 +390,14 @@ ML  toolboxes:     1
 
 	disp(m(1));
 </pre><pre class="codeoutput">                            magic: 'FDEPmodule'
-                          FDEPver: '18-Jun-2009 09:41:57'
-                            MLver: '7.8.0.347 (R2009a)'
-                          rundate: '18-Jun-2009 09:42:00'
+                          FDEPver: '30-Jan-2010 03:30:06'
+                            MLver: '7.9.0.529 (R2009b)'
+                          rundate: '30-Jan-2010 03:30:09'
     MODULE_DESCRIPTION___________: [1x42 char]
                            module: 'eastat'
                              file: 'F:/usr/matlab/dmap/eastat.m'
                            parent: [1x42 char]
-                            index: 4
+                            index: 3
                              type: 'FUNCTION'
                          isscript: 0
                           ispfile: 0
@@ -475,31 +425,31 @@ ML  toolboxes:     1
 </pre><pre class="codeinput"><span class="comment">% show ML functions, which module &lt;eastat&gt; uses</span>
 
 	disp(m(1).MLfunction);
-</pre><pre class="codeoutput">    'F:/usr/r2009a/toolbox/matlab/datafun/corrcoef.m'
-    'F:/usr/r2009a/toolbox/matlab/datafun/hist.m'
-    'F:/usr/r2009a/toolbox/matlab/datafun/mean.m'
-    'F:/usr/r2009a/toolbox/matlab/datafun/median.m'
-    'F:/usr/r2009a/toolbox/matlab/datafun/std.m'
-    'F:/usr/r2009a/toolbox/matlab/funfun/fminsearch.m'
-    'F:/usr/r2009a/toolbox/matlab/funfun/optimset.m'
-    'F:/usr/r2009a/toolbox/matlab/helptools/help.m'
-    'F:/usr/r2009a/toolbox/matlab/polyfun/polyfit.m'
-    'F:/usr/r2009a/toolbox/matlab/polyfun/polyval.m'
-    'F:/usr/r2009a/toolbox/matlab/specgraph/stairs.m'
-    'F:/usr/r2009a/toolbox/stats/finv.m'
-    'F:/usr/r2009a/toolbox/stats/nlinfit.m'
-    'F:/usr/r2009a/toolbox/stats/nlparci.m'
-    'F:/usr/r2009a/toolbox/stats/nlpredci.m'
-    'F:/usr/r2009a/toolbox/stats/norminv.m'
-    'F:/usr/r2009a/toolbox/stats/polyconf.m'
-    'F:/usr/r2009a/toolbox/stats/prctile.m'
-    'F:/usr/r2009a/toolbox/stats/tinv.m'
+</pre><pre class="codeoutput">    'F:/usr/r2009b/toolbox/matlab/datafun/corrcoef.m'
+    'F:/usr/r2009b/toolbox/matlab/datafun/hist.m'
+    'F:/usr/r2009b/toolbox/matlab/datafun/mean.m'
+    'F:/usr/r2009b/toolbox/matlab/datafun/median.m'
+    'F:/usr/r2009b/toolbox/matlab/datafun/std.m'
+    'F:/usr/r2009b/toolbox/matlab/funfun/fminsearch.m'
+    'F:/usr/r2009b/toolbox/matlab/funfun/optimset.m'
+    'F:/usr/r2009b/toolbox/matlab/helptools/help.m'
+    'F:/usr/r2009b/toolbox/matlab/polyfun/polyfit.m'
+    'F:/usr/r2009b/toolbox/matlab/polyfun/polyval.m'
+    'F:/usr/r2009b/toolbox/matlab/specgraph/stairs.m'
+    'F:/usr/r2009b/toolbox/stats/finv.m'
+    'F:/usr/r2009b/toolbox/stats/nlinfit.m'
+    'F:/usr/r2009b/toolbox/stats/nlparci.m'
+    'F:/usr/r2009b/toolbox/stats/nlpredci.m'
+    'F:/usr/r2009b/toolbox/stats/norminv.m'
+    'F:/usr/r2009b/toolbox/stats/polyconf.m'
+    'F:/usr/r2009b/toolbox/stats/prctile.m'
+    'F:/usr/r2009b/toolbox/stats/tinv.m'
 
 </pre><pre class="codeinput"><span class="comment">% show ML toolboxes, which module &lt;eastat&gt; uses</span>
 
 	disp(m(1).MLtoolbox);
-</pre><pre class="codeoutput">    'MATLAB (7.8) [matlab]'
-    'Statistics Toolbox (7.1) [stats]'
+</pre><pre class="codeoutput">    'MATLAB (7.9) [matlab]'
+    'Statistics Toolbox (7.2) [stats]'
 
 </pre><pre class="codeinput"><span class="comment">% show other classes, which module #2 uses</span>
 
@@ -645,20 +595,20 @@ M-FILE       : F:/usr/matlab/tmp/fex/afarg/old09/fdep.m
 P-FILE       :                                         
 MODULE  #   1: fdep                                    
 type         : FUNCTION                                
-created      : 18-Jun-2009 09:41:57                    
-size         : 92838 bytes                             
-lines        : 3786                                    
-comments     : 585                                     
-empty        : 220                                     
+created      : 30-Jan-2010 03:30:06                    
+size         : 94075 bytes                             
+lines        : 3837                                    
+comments     : 602                                     
+empty        : 222                                     
 recursive    : no                                      
 f/eval..     : not used                                
 unresolved   : no                                      
 calls    TO  :     0  user defined                     
 called   FROM:     0  user defined                     
-calls in FILE:   634                                   
-subfunctions :    51  inside  file                     
+calls in FILE:   647                                   
+subfunctions :    52  inside  file                     
 nested       :     0                                   
-anonymous    :    46                                   
+anonymous    :    48                                   
 f/eval..     :     0                                   
 unresolved   :     0                                   
 ML      stock:    34                                   
@@ -666,15 +616,45 @@ ML  built-ins:    86
 ML    classes:     1                                   
 OTHER classes:     0                                   
 ML  toolboxes:     1                                   
-             :    +1  MATLAB (7.8) [matlab]            
+             :    +1  MATLAB (7.9) [matlab]            
 </pre><pre class="codeinput"><span class="comment">% programmers can use this form</span>
 
 	d=fdep(<span class="string">'fdep'</span>,<span class="string">'-q'</span>);
 	disp(d.ncall);
 </pre><pre class="codeoutput">     0
 
-</pre><h2>help<a name="32"></a></h2>
-         <h2>- for the listing's panels<a name="33"></a></h2><pre class="codeinput"><span class="comment">% NOTE</span>
+</pre><h2>- show toolboxes and all modules depending on them<a name="32"></a></h2><pre class="codeinput">	disp(char(p.modbox));
+</pre><pre class="codeoutput">===========================================================
+MATLAB (7.9) [matlab]                                      
+-----------------------------------------------------------
+     1/     1:   F:/usr/matlab/tmp/fex/afarg/old09/tfdep1.m
+     2/     2:   F:/usr/matlab/unix/chkoptn.m              
+     3/     3:   F:/usr/matlab/dmap/eastat.m               
+     4/     6:   F:/usr/matlab/dmap/epar.m                 
+     5/     7:   F:/usr/matlab/dmap/eparcall.m             
+     6/     8:   F:/usr/matlab/dmap/eparcd.m               
+     7/    10:   F:/usr/matlab/dmap/eparw.m                
+     8/    11:   F:/usr/matlab/dmap/eshow.m                
+     9/    12:   F:/usr/matlab/dmap/ever.m                 
+    10/    15:   F:/usr/matlab/dmap/fspl.m                 
+    11/    16:   F:/usr/matlab/unix/getoptn.m              
+    12/    17:   F:/usr/matlab/unix/gettok.m               
+    13/    18:   F:/usr/matlab/local/gettokn.m             
+    14/    19:   F:/usr/matlab/tmp/fex/afarg/old09/mc.m    
+    15/    22:   F:/usr/matlab/unix/setoptn.m              
+    16/    27:   F:/usr/matlab/tmp/fex/afarg/old09/tfdep2.m
+    17/    29:   F:/usr/matlab/local/xzero.m               
+===========================================================
+Signal Processing Toolbox (6.12) [signal]                  
+-----------------------------------------------------------
+     1/    13:   F:/usr/matlab/local/fgauss.m              
+     2/    15:   F:/usr/matlab/dmap/fspl.m                 
+===========================================================
+Statistics Toolbox (7.2) [stats]                           
+-----------------------------------------------------------
+     1/     3:   F:/usr/matlab/dmap/eastat.m               
+     2/    19:   F:/usr/matlab/tmp/fex/afarg/old09/mc.m    
+</pre><h2>help<a name="33"></a></h2><h2>- for the listing's panels<a name="34"></a></h2><pre class="codeinput"><span class="comment">% NOTE</span>
 <span class="comment">% - shows the listing panels' descriptions of the current FDEP version</span>
 <span class="comment">% - to show the HELP in the command window, use macro</span>
 
@@ -684,7 +664,7 @@ ML  toolboxes:     1
 
 	p.help();
 </pre><img vspace="5" hspace="5" src="fdephtml_11.png" alt=""> <pre class="codeinput">	clfig();
-</pre><h2>- for FDEP<a name="35"></a></h2><pre class="codeinput"><span class="comment">% NOTE</span>
+</pre><h2>- for FDEP<a name="36"></a></h2><pre class="codeinput"><span class="comment">% NOTE</span>
 <span class="comment">% - formatting may be wrong in this HTML file</span>
 
 	help <span class="string">fdep</span>;
@@ -776,9 +756,7 @@ ML  toolboxes:     1
  		d=p.get('n');	% retrieve data of module &lt;n&gt;
 
 </pre><p class="footer"><br>
-            Published with MATLAB&reg; 7.8<br></p>
-      </div>
-      <!--
+      Published with MATLAB&reg; 7.9<br></p></div><!--
 ##### SOURCE BEGIN #####
 %% introduction
 %
@@ -828,7 +806,7 @@ ML  toolboxes:     1
 % please use a small font size in your browser for best formatting results
 % of this HTML document
 %
-% us	18-Jun-2009 09:41:57
+% us	30-Jan-2010 03:30:06
 %% TFDEP1: dissection of an M-file
 %
 
@@ -884,9 +862,9 @@ ML  toolboxes:     1
 %		references to previously detected modules during runtime
 %
 %	example
-%		module	38 = <chkoptn> calls 2 previously found modules
-%			20 = <getoptn>
-%			24 = <setoptn>
+%		module#	29 = <chkoptn> calls 2 previously found modules
+%			21 = <getoptn>
+%			25 = <setoptn>
 
 	disp(p.rtree);
 %% - the listing's panels
@@ -907,13 +885,13 @@ ML  toolboxes:     1
 %			- select module M
 
 % NOTE
-% - select module #4/<eastat>
+% - select module #3/<eastat>
 
-	p.list(4);
+	p.list(3);
 % -or-	p.list('eastat');
 % -or-
 %	pp=p.list();
-%	pp.smod(4);
+%	pp.smod(3);
 % -or-	pp.smod('eastat');
 %% - the content of selected modules
 %
@@ -969,7 +947,7 @@ ML  toolboxes:     1
 % - CLICKING on a node displays module information and guiding lines
 % - CLICKING on an empty space in the box clears all guiding lines
 
-	p.mplot([1,4],[5,13]);		% demo: select nodes 1/4 and 5/13
+	p.mplot([1,3],[6,5]);		% demo: select nodes 1/3 and 6/5
 %% - the runtime and caller tree
 %
 
@@ -1184,6 +1162,10 @@ ML  toolboxes:     1
 
 	d=fdep('fdep','-q');
 	disp(d.ncall);
+%% - show toolboxes and all modules depending on them
+%
+
+	disp(char(p.modbox));
 %% help
 %
 
@@ -1210,6 +1192,4 @@ ML  toolboxes:     1
 
 	help fdep;
 ##### SOURCE END #####
--->
-   </body>
-</html>
+--></body></html>

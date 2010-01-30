@@ -107,13 +107,13 @@
 % created:
 %	us	07-Mar-2006
 % modified:
-%	us	18-Jun-2009 09:41:57	/ FEX R2008a
+%	us	30-Jan-2010 03:30:06	/ FEX R2008a
 
 %-------------------------------------------------------------------------------
 function	po=fdep(varargin)
 
 		magic='FDEP';
-		ver='18-Jun-2009 09:41:57';
+		ver='30-Jan-2010 03:30:06';
 		dopt={
 			'-toponly'
 			'-quiet'
@@ -161,8 +161,8 @@ function	po=fdep(varargin)
 		p=p.mplot();
 		p=FDEP_flib(magic,p,1);			% needed
 	end
-		p.runtime(3)=etime(clock,tim);
 
+		p.runtime(3)=etime(clock,tim);
 % no user-defined dependencies
 	if	~p.ncall				&&...
 		~par.opt.qflg
@@ -219,6 +219,8 @@ function	[p,par]=FDEP_ini_engine(ver,magic,dopt,mopt,varargin)
 		p.nmlcall=zeros(1,6);
 		p.mlfun={};
 		p.toolbox={};
+		p.modbix={};
+		p.modbox=[];
 		p.tree={};
 		p.rtree={};
 		p.caller={};
@@ -289,7 +291,7 @@ function	[p,par]=FDEP_ini_engine(ver,magic,dopt,mopt,varargin)
 % - select file name
 %   this is NOT as trivial as it seems...
 
-		[fpat,frot,fext]=fileparts(fnam);
+		[fpat,frot,fext]=fileparts(fnam);	%#ok
 	if	isempty(fext)
 		fext='.m';
 	end
@@ -300,7 +302,7 @@ function	[p,par]=FDEP_ini_engine(ver,magic,dopt,mopt,varargin)
 		return;
 	end
 
-		[apat,arot,aext]=cellfun(@fileparts,afnam,'uni',false);
+		[apat,arot,aext]=cellfun(@fileparts,afnam,'uni',false);	%#ok
 		ix=	strcmp(arot,frot)		&...
 			strcmp(aext,fext);
 	if	~any(ix)
@@ -628,6 +630,7 @@ function	[p,par]=FDEP_end_engine(p,par)
 		p=FDEP_fsort(p,par);
 		p=FDEP_cmp_depmat(p);
 		p=FDEP_parse_modules(p,par);
+		p=FDEP_get_modtbx(p);
 end
 %-------------------------------------------------------------------------------
 function	p=FDEP_flib(magic,p,nr)
@@ -656,7 +659,7 @@ function	[p,par]=FDEP_get_dep(p,par,fnam)
 		par.c=par.c+1;
 
 		fnam=which(fnam);
-		[fpat,frot]=fileparts(fnam);
+		[fpat,frot]=fileparts(fnam);		%#ok
 
 		[p,par,dtmp,dmlf,dmod,dmcl,docl]=FDEP_get_fun(p,par,fnam,frot);
 		wtmp=dtmp;
@@ -756,7 +759,7 @@ function	[p,par,dtmp,dmlf,dmod,dmcl,docl]=FDEP_get_fun(p,par,fnam,frot)
 %		7	called from list	docx
 %		8	other classes		docl
 
-		[dtmp,dmod,dmcl,docx,docx,docx,docx,docl]=depfun(fnam,par.dopt{:});
+		[dtmp,dmod,dmcl,docx,docx,docx,docx,docl]=depfun(fnam,par.dopt{:});	%#ok
 		im=strncmp(par.mlroot,dtmp,numel(par.mlroot));
 		dmlf=dtmp(im);
 		dtmp(im)=[];
@@ -1036,9 +1039,9 @@ end
 function	p=FDEP_fsort(p,par)
 
 		ns=size(par.sn,1);
-		[ix,ix]=sort(p.module(2:end));
+		[ix,ix]=sort(p.module(2:end));		%#ok
 		ix=[1;ix+1];
-		[is,is]=sort(ix);
+		[is,is]=sort(ix);			%#ok
 	for	i=1:ns
 		fn=par.sn{i,1};
 	if	par.sn{i,2}
@@ -1088,6 +1091,43 @@ function	rm=FDEP_set_ent(p,cix,rm)
 	else
 		rm(ix)=[];
 	end
+end
+%-------------------------------------------------------------------------------
+function	p=FDEP_get_modtbx(p)
+
+		mrk1='@#@#@#';
+		mrk2='&#&#&#';
+
+		nt=numel(p.toolbox);
+		ix=false(p.nfun,nt);
+		tbx=cell(nt,4);
+		txt=cell(nt,1);
+	for	i=1:nt
+		ix(:,i)=cellfun(@(x) any(x==i),p.mlix(:,5));
+		ixs=sum(ix(:,i));
+		ixm=find(ix(:,i));
+		tt=[{
+			mrk1
+			sprintf('%s',p.toolbox{i})
+			mrk2
+			}
+			cellfun(@(x,y,z) sprintf('%6d/%6d:   %s',x,y,z),...
+				num2cell(1:ixs).',...
+				num2cell(ixm),...
+				p.fun(ix(:,i)),'uni',false)
+		];
+		tbx(i,1)={p.toolbox(i)};
+		tbx(i,2)={p.fun(ix(:,i))};
+		tbx{i,3}=tt;
+		tbx{i,4}=find(ix(:,i));
+		txt{i,1}=tt;
+	end
+		txt=cat(1,txt{:});
+		ml=max(cellfun(@numel,txt));
+		txt=strrep(txt,mrk1,repmat('=',1,ml));
+		txt=strrep(txt,mrk2,repmat('-',1,ml));
+		p.modbix=tbx(:,end);
+		p.modbox=txt;
 end
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
@@ -1384,7 +1424,7 @@ function	p=FDEP_dlist(magic,p,varargin)
 			'nested / anonymous functions'
 		'SM'	[mrg,yoff+1*l4,1/3-2*mrg,ylen],...
 			'main function'
-		'S'	[mrg,yoff+0*l4,1/3-2*mrg,ylen],...
+		'MT'	[mrg,yoff+0*l4,1/3-2*mrg,ylen],...
 			'toolboxes'
 		'T'	[xoff+l3,yoff+4*l4,xle2,ylen],...
 			'module summary'
@@ -1579,6 +1619,7 @@ function	FDEP_cb_list(h,e,p,par,lh,lht,v)	%#ok
 
 	switch	t
 	case	'M'
+		set(h,'max',1);
 	case	'F'
 		s=cellstr(get(h,'string'));
 	if	v <= 0 || v > numel(s)
@@ -1602,6 +1643,13 @@ function	FDEP_cb_list(h,e,p,par,lh,lht,v)	%#ok
 		FDEP_manager([],'synopsis',mfilename,p,'m',true,m,s);
 	end
 		return;
+	case	'MT'
+	if	v && v <= size(p.modbix,1)
+		vx=p.modbix{v,end};
+		set(lh(1),'max',2);
+		set(lh(1),'value',vx);
+	end
+		return;
 	otherwise
 		return;
 	end
@@ -1610,7 +1658,9 @@ function	FDEP_cb_list(h,e,p,par,lh,lht,v)	%#ok
 			'userdata',[],...
 			'string','');
 		set(lh(2:end),'value',1);
-		set(lh(1),'value',v);
+		set(lh(1),...
+			'max',1,...
+			'value',v);
 		set(lht,'listboxtop',1);
 
 		set(lh(2),'string',p.fun(p.mix{v}));
@@ -2319,7 +2369,7 @@ function	FDEP_set_ctrl(p,fh,uh,ix,xoff,xlen,yoff,ylen,varargin)
 	if	isempty(ix)
 		ix=1:size(uc,1);
 	elseif	iscell(ix)
-		[ix,ix]=ismember(ix,uc(:,1));
+		[ix,ix]=ismember(ix,uc(:,1));		%#ok
 	end
 		uc=uc(ix,:);
 
@@ -2415,13 +2465,13 @@ function	FDEP_cb_mlist(h,e,p,mx,m,s,c)		%#ok
 	switch	cn
 	case	{1,2,3,4}
 		ml={'S','N','A','E'};
-		[r,nr,er]=sscanf(cs,'%d:%s',[1,2]);
+		[r,nr,er]=sscanf(cs,'%d:%s',[1,2]);	%#ok
 	if	er
 		return;
 	end
 		opentoline(m,p.sub(mx).(ml{cn}).bx(1,r(1)));
 	case	5
-		[r,nr,er]=sscanf(cs,'%d:%s',[1,2]);
+		[r,nr,er]=sscanf(cs,'%d:%s',[1,2]);	%#ok
 	if	er
 		return;
 	end
@@ -2430,7 +2480,7 @@ function	FDEP_cb_mlist(h,e,p,mx,m,s,c)		%#ok
 		opentoline(f,1);
 	end
 	case	10
-		[r,nr,er]=sscanf(cs,'%d:%d%s',[1,3]);
+		[r,nr,er]=sscanf(cs,'%d:%d%s',[1,3]);	%#ok
 	if	er
 		return;
 	end
@@ -2503,7 +2553,7 @@ end
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
-%$SSC_INSERT_BEG   18-Jun-2009/09:41:57   F:/usr/matlab/tmp/fex/afarg/old09/farg.m
+%$SSC_INSERT_BEG   30-Jan-2010/03:30:06   F:/usr/matlab/tmp/fex/afarg/old09/farg.m
 % SSC automatic file insertion utility
 %     - us@neurol.unizh.ch [ver 07-Jun-2009/19:50:14]
 %     - all empty spaces and comments are stripped for brevity
@@ -2708,7 +2758,7 @@ function	[p,par]=FARG_ini_par(magic,fver,varargin)
 		flg=false;
 		par.fnam=varargin{1};
 		ftype=exist(par.fnam,'file');
-		[fpat,frot,fext]=fileparts(par.fnam);
+		[fpat,frot,fext]=fileparts(par.fnam);	%#ok
 	if	isempty(fext)				||...
 		ftype ~= par.pext{3,2}
 		par.fnam=[frot,par.mext];
@@ -2863,7 +2913,7 @@ function	[p,par]=FARG_get_calls(p,par)
 		ic=find(~cellfun(@isempty,par.stmpl(:,end))).';
 	for	i=ic
 		fn=par.stmpl{i,1};
-		v.(fn)=[];
+		v.(fn)=[];				%#ok
 		ix=~cellfun('isempty',regexp(par.call,['^',fn],'match'));
 	if	any(ix)
 		vtmp=par.stmpl{i,5}(par.call(ix));
@@ -3148,7 +3198,7 @@ function	[p,par,sr,ixb]=FARG_add_entries(p,par,sr,fe,ixb)
 		p.ixm=[p.ixm;[par.senum.(fe)*ones(sub.nx,2),sub.bx(2,:).']];
 		p.ixm(:,1)=ixb;
 		sr(ci+1:ci+sub.nx)=sub.fd;
-		[ix,ix]=sortrows(p.ixm,[1,3,2]);
+		[ix,ix]=sortrows(p.ixm,[1,3,2]);	%#ok
 		sr=sr(ix);
 		p.ixm=p.ixm(ix,:);
 		ixb=p.ixm(:,1);
@@ -3158,10 +3208,10 @@ end
 function	[p,par]=FARG_set_entries(p,par,s,sr,ixb)
 	if	par.nfun
 		nfmt=repmat({''},par.nfun,1);
-		ix=p.ixm(:,2)<4;				% cyc M S N
-	if	any(ix)						% FUNCTION
+		ix=p.ixm(:,2)<4;			% cyc M S N
+	if	any(ix)					% FUNCTION
 		nfmt(ix)=par.lint.cyc(:,2);
-	else							% SCRIPT
+	else						% SCRIPT
 		par.fmtcmp='%1s';
 	end
 		fmt=strrep('%s%6d|%s: %c  X %s','X',par.fmtcmp);
@@ -3215,8 +3265,8 @@ function	p=FARG_get_context(p,par,fe,isclosed)
 		par.lexstp{3}=''')''';
 	end
 		sub=p.(fe);
-		[ib,ib]=ismember(sub.bx.',par.lex(:,1:2),'rows');
-		[ie,ie]=ismember(sub.ex.',par.lex(:,1:2),'rows');
+		[ib,ib]=ismember(sub.bx.',par.lex(:,1:2),'rows');	%#ok
+		[ie,ie]=ismember(sub.ex.',par.lex(:,1:2),'rows');	%#ok
 	for	ibx=1:numel(ib)
 		nb=0;
 	for	ix=ib(ibx):-1:1
@@ -3468,7 +3518,7 @@ function	s=FARG_show_entries(p,varargin)
 		clear	s;
 	end
 end
-%$SSC_INSERT_END   18-Jun-2009/09:41:57   F:/usr/matlab/tmp/fex/afarg/old09/farg.m
+%$SSC_INSERT_END   30-Jan-2010/03:30:06   F:/usr/matlab/tmp/fex/afarg/old09/farg.m
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
@@ -3483,7 +3533,7 @@ end
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
-%$SSC_INSERT_BEG   18-Jun-2009/09:41:57   F:/usr/matlab/unix/detab.m
+%$SSC_INSERT_BEG   30-Jan-2010/03:30:06   F:/usr/matlab/unix/detab.m
 % SSC automatic file insertion utility
 %     - us@neurol.unizh.ch [ver 07-Jun-2009/19:50:14]
 %     - all empty spaces and comments are stripped for brevity
@@ -3631,7 +3681,7 @@ function	[opt,par]=DETAB_get_par(otmpl,varargin)
 	end
 		par.uh=[];
 end
-%$SSC_INSERT_END   18-Jun-2009/09:41:57   F:/usr/matlab/unix/detab.m
+%$SSC_INSERT_END   30-Jan-2010/03:30:06   F:/usr/matlab/unix/detab.m
 %--------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
@@ -3643,7 +3693,7 @@ end
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 %@LISTHELP_BEG
-% FDEP	version 18-Jun-2009 09:41:57
+% FDEP	version 30-Jan-2010 03:30:06
 %
 % the ML-file under investigation is the
 %	root function = MAIN module
@@ -3715,7 +3765,8 @@ end
 %	shows a list of all toolboxes that are used by the modules
 %	those that are used by the currently selected module are highlighted
 %	toolboxes are shown with their official name, version, and folder name
-%	CLICKING in this box has no effect
+%	CLICKING on a toolbox name highlights in the modules list
+%		those modules, which use the toolbox
 %
 % module summary
 %-------------------------------------------------------------------------------
