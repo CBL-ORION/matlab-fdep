@@ -107,13 +107,13 @@
 % created:
 %	us	07-Mar-2006
 % modified:
-%	us	30-Jan-2010 03:30:06	/ FEX R2008a
+%	us	26-May-2010 11:15:35	/ FEX R2008a
 
 %-------------------------------------------------------------------------------
 function	po=fdep(varargin)
 
 		magic='FDEP';
-		ver='30-Jan-2010 03:30:06';
+		ver='26-May-2010 11:15:35';
 		dopt={
 			'-toponly'
 			'-quiet'
@@ -1122,12 +1122,15 @@ function	p=FDEP_get_modtbx(p)
 		tbx{i,4}=find(ix(:,i));
 		txt{i,1}=tt;
 	end
+
+	if	nt
 		txt=cat(1,txt{:});
 		ml=max(cellfun(@numel,txt));
 		txt=strrep(txt,mrk1,repmat('=',1,ml));
 		txt=strrep(txt,mrk2,repmat('-',1,ml));
 		p.modbix=tbx(:,end);
 		p.modbox=txt;
+	end
 end
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
@@ -2553,14 +2556,16 @@ end
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
-%$SSC_INSERT_BEG   30-Jan-2010/03:30:06   F:/usr/matlab/tmp/fex/afarg/old09/farg.m
+%$SSC_INSERT_BEG   26-May-2010/11:15:35   F:/usr/matlab/tmp/fex/afarg/ver2010/farg.m
+%-------------------------------------------------------------------------------
 % SSC automatic file insertion utility
-%     - us@neurol.unizh.ch [ver 07-Jun-2009/19:50:14]
+%     - us@neurol.unizh.ch [ver 26-Apr-2010/00:48:30]
 %     - all empty spaces and comments are stripped for brevity
 %     - original code available upon request
+%-------------------------------------------------------------------------------
 function	[p,pp]=farg(varargin)
 		magic='FARG';
-		fver='18-Jun-2009 09:41:48';
+		fver='26-May-2010 11:15:24';
 	if	~nargin
 	if	nargout
 		[p,pp]=FARG_ini_par(magic,fver,mfilename,'-d');
@@ -2845,11 +2850,11 @@ function	par=FARG_chk_lint(par)
 	if	~par.opt.line
 		fmt=par.fmtnoop;
 		fnc=@(x,y,z) sprintf(['%s %5d>',fmt,': %s'],...
-				par.bol,x,y,z);
+				par.bol,x(1),y(1),z(1,:));
 	else
 		fmt=par.fmtopen;
 		fnc=@(x,y,z) sprintf(['%s %5d>',fmt,': %s'],...
-				par.bol,x,par.wnam,y,y,z);
+				par.bol,x(1),par.wnam,y(1),y(1),z(1,:));
 	end
 		par.lint.nerr=numel(err);
 		par.lint.serr=err;
@@ -3518,7 +3523,8 @@ function	s=FARG_show_entries(p,varargin)
 		clear	s;
 	end
 end
-%$SSC_INSERT_END   30-Jan-2010/03:30:06   F:/usr/matlab/tmp/fex/afarg/old09/farg.m
+%-------------------------------------------------------------------------------
+%$SSC_INSERT_END   26-May-2010/11:15:35   F:/usr/matlab/tmp/fex/afarg/ver2010/farg.m
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
@@ -3533,11 +3539,13 @@ end
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
-%$SSC_INSERT_BEG   30-Jan-2010/03:30:06   F:/usr/matlab/unix/detab.m
+%$SSC_INSERT_BEG   26-May-2010/11:15:35   F:/usr/matlab/unix/detab.m
+%-------------------------------------------------------------------------------
 % SSC automatic file insertion utility
-%     - us@neurol.unizh.ch [ver 07-Jun-2009/19:50:14]
+%     - us@neurol.unizh.ch [ver 26-Apr-2010/00:48:30]
 %     - all empty spaces and comments are stripped for brevity
 %     - original code available upon request
+%-------------------------------------------------------------------------------
 function	[ss,p]=detab(cstr,varargin)
 		magic='DETAB';
 		pver='04-Jul-2008 20:35:47';
@@ -3681,7 +3689,8 @@ function	[opt,par]=DETAB_get_par(otmpl,varargin)
 	end
 		par.uh=[];
 end
-%$SSC_INSERT_END   30-Jan-2010/03:30:06   F:/usr/matlab/unix/detab.m
+%-------------------------------------------------------------------------------
+%$SSC_INSERT_END   26-May-2010/11:15:35   F:/usr/matlab/unix/detab.m
 %--------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
@@ -3693,7 +3702,7 @@ end
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 %@LISTHELP_BEG
-% FDEP	version 30-Jan-2010 03:30:06
+% FDEP	version 26-May-2010 11:15:35
 %
 % the ML-file under investigation is the
 %	root function = MAIN module
