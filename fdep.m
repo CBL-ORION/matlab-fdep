@@ -107,13 +107,13 @@
 % created:
 %	us	07-Mar-2006
 % modified:
-%	us	26-May-2010 11:15:35	/ FEX R2008a
+%	us	17-Jun-2010 20:28:11	/ FEX R2008a
 
 %-------------------------------------------------------------------------------
 function	po=fdep(varargin)
 
 		magic='FDEP';
-		ver='26-May-2010 11:15:35';
+		ver='17-Jun-2010 20:28:11';
 		dopt={
 			'-toponly'
 			'-quiet'
@@ -2227,6 +2227,7 @@ function	FDEP_rtree(magic,p,varargin)		%#ok
 		FDEP_manager([],[],[],p,'r',true,1,s,ctag);
 	end
 end
+%-------------------------------------------------------------------------------
 function	[s,c,m,mx,htag,ftit]=FDEP_get_module(p,varargin)
 
 % retrieve callback association from latest synopsis output
@@ -2334,7 +2335,7 @@ function	[s,c,m,mx,htag,ftit]=FDEP_get_module(p,varargin)
 		s(end+1:end+ns)=cellfun(@(a,b) sprintf('%4d:          %s',a,b),tn,ts,'uni',false);
 		c(end+1:end+ns)=mlst(i,3);
 	else
-		s(end+1:end+ns)=cellfun(@(a,b) sprintf('%4d: %s',a,b),tn,ts,'uni',false);
+		s(end+1:end+ns)=cellfun(@(a,b) sprintf('%4d: %s',a,b),tn(:),ts(:),'uni',false);
 		c(end+1:end+ns)=mlst(i,3);
 	end
 	end
@@ -2556,7 +2557,7 @@ end
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
-%$SSC_INSERT_BEG   26-May-2010/11:15:35   F:/usr/matlab/tmp/fex/afarg/ver2010/farg.m
+%$SSC_INSERT_BEG   17-Jun-2010/20:28:11   F:/usr/matlab/tmp/fex/afarg/ver2010/farg.m
 %-------------------------------------------------------------------------------
 % SSC automatic file insertion utility
 %     - us@neurol.unizh.ch [ver 26-Apr-2010/00:48:30]
@@ -3524,7 +3525,7 @@ function	s=FARG_show_entries(p,varargin)
 	end
 end
 %-------------------------------------------------------------------------------
-%$SSC_INSERT_END   26-May-2010/11:15:35   F:/usr/matlab/tmp/fex/afarg/ver2010/farg.m
+%$SSC_INSERT_END   17-Jun-2010/20:28:11   F:/usr/matlab/tmp/fex/afarg/ver2010/farg.m
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
@@ -3539,7 +3540,7 @@ end
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
-%$SSC_INSERT_BEG   26-May-2010/11:15:35   F:/usr/matlab/unix/detab.m
+%$SSC_INSERT_BEG   17-Jun-2010/20:28:11   F:/usr/matlab/unix/detab.m
 %-------------------------------------------------------------------------------
 % SSC automatic file insertion utility
 %     - us@neurol.unizh.ch [ver 26-Apr-2010/00:48:30]
@@ -3690,7 +3691,7 @@ function	[opt,par]=DETAB_get_par(otmpl,varargin)
 		par.uh=[];
 end
 %-------------------------------------------------------------------------------
-%$SSC_INSERT_END   26-May-2010/11:15:35   F:/usr/matlab/unix/detab.m
+%$SSC_INSERT_END   17-Jun-2010/20:28:11   F:/usr/matlab/unix/detab.m
 %--------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
@@ -3702,7 +3703,7 @@ end
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 %@LISTHELP_BEG
-% FDEP	version 26-May-2010 11:15:35
+% FDEP	version 17-Jun-2010 20:28:11
 %
 % the ML-file under investigation is the
 %	root function = MAIN module
